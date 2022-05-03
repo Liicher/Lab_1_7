@@ -4,19 +4,18 @@ import java.util.Random;
 
 public class Generate
 {
-    private static final int N = 3;                             // Размер объема данных
-    private static final int[] Array_int = new int[N];          // Массив для целлчисленных данных
+    private static final int N = 5;                             // Размер объема данных (изменяется здесь)
+    private static final int[] Array_int = new int[N];          // Массив для целлочисленных данных
     private static final String[] Array_Str = new String[N];    // Массив для строк
     private static int ArrKey;                                  // Переменная для выбранного типа данных
 
-    public Generate()
-    {
-        //Выбор типа данных
+    public Generate() {
         Choice choice = new Choice();
         ArrKey = choice.choice(1);
+    }
 
-        switch (ArrKey)
-        {
+    public void generate() {
+        switch (ArrKey) {
             // Генерация целочисленных данных
             case 1:
                 for(int i = 0; i < N; i++) {

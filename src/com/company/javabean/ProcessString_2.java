@@ -5,10 +5,7 @@ package com.company.javabean;
 строке, общее количество слов и символов по всем строкам списка
 */
 
-import com.ibm.jvm.Log;
-
-public class ProcessString_2 implements ProcessString
-{
+public class ProcessString_2 implements ProcessString, Runnable {
     private static int[] WordsCountStr;     // Массив для количества слов в каждой строке
     private static int WordsCountAll;       // Количество слов во всех строках
     private static int[] SymbolCountStr;    // Массив для количества символов в каждой строке
@@ -17,14 +14,15 @@ public class ProcessString_2 implements ProcessString
     String[] Array;     // Сгенерированный массив
     int N;              // Объем данных
 
-    public ProcessString_2()    // Конструктор
-    {
+    public ProcessString_2() {
         this.Array = Generate.getArray_Str();
         this.N = Generate.getN();
     }
 
-    public void process(int N, String[] Array_Str)
-    {
+    public void process(int N, String[] Array_Str) {
+        var processObserverStr2 = new ProcessObserver();
+        new Logger("Обработчик строк №2", processObserverStr2);
+
         SymbolCountStr = new int[Array_Str.length];
         SymbolCountAll = 0;
         WordsCountAll = 0;
@@ -44,12 +42,23 @@ public class ProcessString_2 implements ProcessString
             }
         }
 
-        Logger logger = new Logger();
-        logger.getContent(4);       // Логгер для второго обработчика строк
+        StringBuilder sb1 = new StringBuilder();
+        for(int i = 0; i < Array_Str.length; i++) {
+            sb1.append("Количество  слов  в  " + (i+1) + " строке:  " + WordsCountStr[i] +
+                    "\nКоличество символов в " + (i+1) + " строке: " + SymbolCountStr[i] + "\n");
+        }
+        sb1.append("Общее  количество  слов:   " + WordsCountAll +
+                "\nОбщее количество символов: " + SymbolCountAll);
+        processObserverStr2.setContent("\n" + sb1);
     }
 
     public static int[] getWordsCountStr() { return WordsCountStr; }
     public static int getWordsCountAll() { return WordsCountAll; }
     public static int[] getSymbolCountStr() { return SymbolCountStr; }
     public static int getSymbolCountAll() { return SymbolCountAll; }
+
+    @Override
+    public void run() {
+        process(Generate.getN(), Generate.getArray_Str());
+    }
 }

@@ -5,28 +5,30 @@ package com.company.javabean;
 нечетные элементы, в зависимости от настройки.
 */
 
-public class ProcessInt_2 implements ProcessInt
-{
+public class ProcessInt_2 implements ProcessInt, Runnable {
     private static int[] Array_2;
     private static int count = 0;
-
-    public static int[] getArray_2() { return Array_2; }
-    public static int getCount() { return count; }
 
     int[] Array;
     int N;
 
-    public ProcessInt_2()
-    {
+    public ProcessInt_2() {
         this.Array = Generate.getArray_int();
         this.N = Generate.getN();
     }
 
-    public void process(int N, int[] Array_Int)
-    {
-        Logger logger = new Logger();
+    @Override
+    public void run() {
+        process(Generate.getN(), Generate.getArray_int());
+    }
+
+    public void process(int N, int[] Array_Int) {
+        var processObserverInt2 = new ProcessObserver();
+        new Logger("Обработчик целых №2", processObserverInt2);
+
         Choice choice = new Choice();       // Метод выбора
-        int key = choice.choice(2);   // Выбор пользователя
+        //int key = choice.choice(2);   // Выбор пользователя
+        int key = 1;
         int j = 0;
 
         switch (key) {
@@ -45,7 +47,12 @@ public class ProcessInt_2 implements ProcessInt
                         j++;
                     }
                 }
-                logger.getContent(2);
+
+                StringBuilder sb1 = new StringBuilder();
+                for(int i = 0; i < ProcessInt_2.getCount(); i++) {
+                    sb1.append(Array_2[i]).append(" ");
+                }
+                processObserverInt2.setContent("Обновленный массив - " + sb1);
                 break;
 
             // Удаление четных
@@ -63,11 +70,19 @@ public class ProcessInt_2 implements ProcessInt
                         j++;
                     }
                 }
-                logger.getContent(2);       // Логгер для второго обработчика целых чисел
+
+                StringBuilder sb2 = new StringBuilder();
+                for(int i = 0; i < ProcessInt_2.getCount(); i++) {
+                    sb2.append(Array_2[i]).append(" ");
+                }
+                processObserverInt2.setContent("Обновленный массив - " + sb2);
                 break;
 
             default:
                 break;
         }
     }
+
+    public static int[] getArray_2() { return Array_2; }
+    public static int getCount() { return count; }
 }

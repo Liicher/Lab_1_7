@@ -1,19 +1,14 @@
 package com.company.javabean;
-
 import java.util.Scanner;
 
-public class Choice implements IChoice
+public class Choice
 {
-    private static int key;
-
     public Choice() { }
 
-    public static int getKey() { return key; }
-
-    @Override
     public int choice(int CKey)
     {
         Scanner sc = new Scanner(System.in);
+        int key;
         switch (CKey)
         {
             case 1:
